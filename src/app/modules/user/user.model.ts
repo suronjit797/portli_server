@@ -22,7 +22,7 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
-    phoneNumber: String,
+    phoneNumber: { required: true, type: String },
     activeTemplate: String,
     paymentInfo: Schema.Types.ObjectId, //! in future
     // profilePicture: Schema.Types.Mixed,

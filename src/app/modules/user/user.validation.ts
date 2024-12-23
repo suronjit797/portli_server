@@ -7,6 +7,9 @@ export const userCreateValidationZod = z.object({
     email: z.string(),
     role: z.enum(Object.values(userRole) as [string, ...string[]]).optional(),
     password: z.string(),
+    phoneNumber: z.string(),
+    activeTemplate: z.string().optional(),
+    paymentInfo: z.string().optional(), // in future
   }),
 });
 
@@ -23,6 +26,8 @@ export const userUpdateValidationZod = z.object({
     email: z.string().optional(),
     role: z.enum(Object.values(userRole) as [string, ...string[]]).optional(),
     password: z.string().optional(),
-
+    phoneNumber: z.string().optional(),
+    activeTemplate: z.string().optional(),
+    paymentInfo: z.string().optional(), // in future
   }),
 });
