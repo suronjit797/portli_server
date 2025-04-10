@@ -4,7 +4,6 @@ import { globalContent } from "../../global/globalSchema";
 import { Types } from "mongoose";
 
 const componentsSchema = {
-  type: String,
   content: globalContent,
   styles: Object,
   key: {
