@@ -15,8 +15,6 @@ export const pic = <T extends object, K extends keyof T>(obj: T, keys: K[]): Par
 export const specialPic = <T extends object, K extends keyof T>(obj: T, keys: K[]): Partial<T> => {
   const findObject: Partial<T> = {};
 
-
-
   // for (const key of keys) {
   //   if (obj && Object.prototype.hasOwnProperty.call(obj, key) && obj[key]) {
   //     findObject[key] = obj[key];
@@ -27,7 +25,7 @@ export const specialPic = <T extends object, K extends keyof T>(obj: T, keys: K[
 };
 
 export const paginationHelper = <T extends Record<string, unknown>>(obj: T): IPagination => {
-  const keys: (keyof T)[] = ["page", "limit", "sortOrder", "sortBy"];
+  const keys: (keyof T)[] = ["page", "limit", "sortOrder", "sortBy", "populate"];
   const options = pic(obj, keys);
 
   const page: number = Math.abs(Number(options.page) || 1);
@@ -52,5 +50,6 @@ export const paginationHelper = <T extends Record<string, unknown>>(obj: T): IPa
     limit,
     skip,
     sortCondition,
+    populate: options.populate as string,
   };
 };

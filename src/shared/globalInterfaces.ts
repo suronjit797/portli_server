@@ -24,6 +24,7 @@ export type IPagination = {
   limit: number;
   skip: number;
   sortCondition: ISortCondition;
+  populate: string;
 };
 
 export type IPartialSearchableFields = string[];
@@ -45,7 +46,7 @@ export interface IGetAll_service<T> {
 
 export type TFilter = { [key: string]: object };
 
-export type TFile = File[] | { [fieldname: string]: File[]; } | undefined
+export type TFile = File[] | { [fieldname: string]: File[] } | undefined;
 
 export type TFiles = {
   [key: string]: Express.Multer.File[];
