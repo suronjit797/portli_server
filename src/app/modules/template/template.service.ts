@@ -5,19 +5,9 @@ import sendRes from "../../../shared/sendResponse";
 
 const globalServices = globalService(TemplateModel);
 
-const create: RequestHandler = (req, res, next) => {
-  try {
-    const { _id } = req.user;
-    const data = TemplateModel.create({ ...req.body, user: _id });
-    const payload = {
-      success: true,
-      message: "Template create successfully",
-      data,
-    };
-    sendRes(res, 201, payload);
-  } catch (error) {
-    next(error);
-  }
+const create: RequestHandler = (req) => {
+  const { _id, role } = req.user;
+  return TemplateModel.create({ ...req.body, user: _id, isAdminTemplate: role === "admin" });
 };
 
 const templateService = { ...globalServices, create };
