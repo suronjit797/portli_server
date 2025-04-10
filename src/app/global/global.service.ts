@@ -1,38 +1,42 @@
 import { Model } from "mongoose";
-import { IGetAll_service, IPagination, TFilter } from "../../shared/globalInterfaces";
+import type { IGetAll_service, IPagination, TFilter } from "./globalInterfaces";
 
 const globalService = <TType>(
   ModelName: Model<TType, Record<string, unknown>>
-): { create: Function; getSingle: Function; update: Function; remove: Function; getAll: Function } => {
+): {
+  create: (body: TType) => Promise<TType>;
+  getSingle: (id: string) => Promise<TType | null>;
+  update: (id: string, payload: Partial<TType>) => Promise<TType | null>;
+  remove: (id: string) => Promise<TType | null>;
+  getAll: (pagination: IPagination, filter: Partial<TFilter>) => Promise<IGetAll_service<TType[]>>;
+} => {
   return {
     // create
-    create: async (body: TType): Promise<TType | null> => {
+    create: async (body: TType): Promise<TType> => {
       return await ModelName.create(body);
     },
 
     // get all
-    getAll: async (pagination: IPagination, filter: Partial<TFilter>): Promise<IGetAll_service<TType[] | null>> => {
+    getAll: async (pagination: IPagination, filter: Partial<TFilter>): Promise<IGetAll_service<TType[]>> => {
       const { page, limit, skip, sortCondition } = pagination;
       const data = await ModelName.find(filter).limit(limit).skip(skip).sort(sortCondition);
       const total = await ModelName.countDocuments(filter);
       return { data, meta: { page, limit, total } };
     },
-    
+
     // get single
-    getSingle: async (id: string): Promise<Partial<TType> | null> => {
+    getSingle: async (id: string): Promise<TType | null> => {
       return await ModelName.findById(id);
     },
 
     // update single
     update: async (id: string, payload: Partial<TType>): Promise<TType | null> => {
-      const data = await ModelName.findByIdAndUpdate(id, payload, { new: true });
-      return data;
+      return await ModelName.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
     },
 
     // remove single
-    remove: async (id: string): Promise<any> => {
-      const data = await ModelName.findByIdAndDelete(id);
-      return data;
+    remove: async (id: string): Promise<TType | null> => {
+      return await ModelName.findByIdAndDelete(id);
     },
   };
 };

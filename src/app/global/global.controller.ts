@@ -1,15 +1,42 @@
-import { RequestHandler } from "express";
-import sendResponse from "../../shared/sendResponse";
+import type { RequestHandler } from "express";
 import httpStatus from "http-status";
-import ApiError from "../../ApiError";
+import redis from "../config/redis";
+import generateCacheKey from "../helper/cacheKeyGenerator";
+import filterHelper from "../helper/filterHelper";
+import { paginationHelper } from "../helper/paginitionHelper";
+import sendResponse from "../shared/sendResponse";
+import { ApiError } from "./globalError";
+import { IMeta, IPagination, TFilter } from "./globalInterfaces";
 
-const globalController = (
-  service: Record<string, Function>,
-  name: string
-): { create: RequestHandler; getSingle: RequestHandler; update: RequestHandler; remove: RequestHandler } => {
+interface ServiceMethods<T> {
+  create: (data: T) => Promise<T | null>;
+  getSingle: (id: string) => Promise<T | null>;
+  getAll: (pagination: IPagination, filter: Partial<TFilter>) => Promise<{ data: T[]; meta: IMeta }>;
+  update: (id: string, data: Partial<T>) => Promise<T | null>;
+  remove: (id: string) => Promise<T | null>;
+}
+
+const globalController = <T>(
+  service: ServiceMethods<T>,
+  name: string,
+): {
+  create: RequestHandler;
+  getAll: RequestHandler;
+  getSingle: RequestHandler;
+  update: RequestHandler;
+  remove: RequestHandler;
+} => {
   return {
     create: async (req, res, next) => {
       try {
+        // invalid cache
+        const cacheKey = `api:v1:${name}*`.toLocaleLowerCase();
+        const key = await redis.keys(cacheKey);
+        console.log(key, cacheKey);
+        if (key?.length > 0) {
+          redis.del(key);
+        }
+
         const data = await service.create(req.body);
 
         const payload = {
@@ -17,22 +44,76 @@ const globalController = (
           message: `${name} created successfully`,
           data,
         };
-        return sendResponse(res, httpStatus.CREATED, payload);
+        sendResponse(res, httpStatus.CREATED, payload);
+        return;
       } catch (error) {
-        console.log(error);
+        next(error);
+      }
+    },
+
+    getAll: async (req, res, next) => {
+      try {
+        let values: { data: Array<T>; meta: IMeta } = { data: [], meta: { limit: 10, page: 1, total: 0 } };
+        // cached data
+        const cacheKey = generateCacheKey(req);
+        const cachedData = await redis.get(cacheKey);
+
+        if (cachedData) {
+          const cachedDataJSON = JSON.parse(cachedData);
+          values = cachedDataJSON;
+        } else {
+          // filter
+          const pagination = paginationHelper(req.query);
+          const filter = filterHelper(req.query, req.partialFilter);
+
+          // get data from service
+          values = await service.getAll(pagination, filter);
+
+          if (values?.data?.length) {
+            // can be used setex for auto expire
+            redis.set(cacheKey, JSON.stringify(values));
+          }
+        }
+        const { meta, data } = values;
+
+        // payload
+        const payload = {
+          success: true,
+          message: `${name}s fetched successfully`,
+          meta,
+          data,
+        };
+        sendResponse(res, httpStatus.OK, payload);
+        return;
+      } catch (error) {
         next(error);
       }
     },
 
     getSingle: async (req, res, next) => {
       try {
-        const data = await service.getSingle(req.params.id);
+        let data: T | null = null;
+        // cached data
+        const cacheKey = generateCacheKey(req);
+        const cachedData = await redis.get(cacheKey);
+
+        if (cachedData) {
+          data = JSON.parse(cachedData);
+        } else {
+          data = await service.getSingle(req.params.id);
+          if (data) {
+            redis.set(cacheKey, JSON.stringify(data));
+          }
+        }
+
+        // const data = await service.getSingle(req.params.id);
         const payload = {
           success: true,
           message: `${name} fetched successfully`,
           data,
         };
-        return sendResponse(res, httpStatus.OK, payload);
+        sendResponse(res, httpStatus.OK, payload);
+        return;
       } catch (error) {
         next(error);
       }
@@ -40,6 +121,14 @@ const globalController = (
 
     update: async (req, res, next) => {
       try {
+        // invalid cache
+        const cacheKey = `api:v1:${name}*`.toLocaleLowerCase();
+        const key = await redis.keys(cacheKey);
+        console.log(key, cacheKey);
+        if (key?.length > 0) {
+          redis.del(key);
+        }
+
         const data = await service.update(req.params.id, req.body);
 
         if (!data) {
@@ -51,7 +140,8 @@ const globalController = (
           message: `${name} updated successfully`,
           data,
         };
-        return sendResponse(res, httpStatus.OK, payload);
+        sendResponse(res, httpStatus.OK, payload);
+        return;
       } catch (error) {
         next(error);
       }
@@ -59,6 +149,14 @@ const globalController = (
 
     remove: async (req, res, next) => {
       try {
+        // invalid cache
+        const cacheKey = `api:v1:${name}*`.toLocaleLowerCase();
+        const key = await redis.keys(cacheKey);
+        console.log(key, cacheKey);
+        if (key?.length > 0) {
+          redis.del(key);
+        }
+
         const data = await service.remove(req.params.id);
 
         const payload = {
@@ -66,7 +164,8 @@ const globalController = (
           message: `${name} deleted successfully`,
           data,
         };
-        return sendResponse(res, httpStatus.OK, payload);
+        sendResponse(res, httpStatus.OK, payload);
+        return;
       } catch (error) {
         next(error);
       }
