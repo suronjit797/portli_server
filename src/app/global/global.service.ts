@@ -35,8 +35,8 @@ const globalService = <TType>(
     },
 
     // get single
-    getSingle: async (id: string): Promise<TType | null> => {
-      return await ModelName.findById(id);
+    getSingle: async (id: string, populate = ""): Promise<TType | null> => {
+      return (await ModelName.findById(id).populate(populate)) as any;
     },
 
     // update single
@@ -46,7 +46,7 @@ const globalService = <TType>(
 
     // remove single
     remove: async (id: string): Promise<TType | null> => {
-      return await ModelName.findByIdAndDelete(id) as any;
+      return (await ModelName.findByIdAndDelete(id)) as any;
     },
   };
 };

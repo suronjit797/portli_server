@@ -7,7 +7,7 @@ import { IMeta } from "./globalInterfaces";
 
 interface ServiceMethods<T> {
   create: (data: T) => Promise<T | null>;
-  getSingle: (id: string) => Promise<T | null>;
+  getSingle: (id: string, populate: string) => Promise<T | null>;
   getAll: (req: Request) => Promise<{ data: T[]; meta: IMeta }>;
   update: (id: string, data: Partial<T>) => Promise<T | null>;
   remove: (id: string) => Promise<T | null>;
@@ -63,7 +63,8 @@ const globalController = <T>(
 
     getSingle: async (req, res, next) => {
       try {
-        const data = await service.getSingle(req.params.id);
+        const populate = req.query.populate as string;
+        const data = await service.getSingle(req.params.id, populate);
 
         // const data = await service.getSingle(req.params.id);
         const payload = {
