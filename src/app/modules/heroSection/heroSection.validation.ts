@@ -1,11 +1,13 @@
 import { z } from "zod";
 import { globalContentValidator } from "../../global/globalValidator";
 
-const componentsSchema = z.object({
-  type: z.string().optional(),
-  content: globalContentValidator,
-  styles: z.record(z.string()).optional(),
-});
+const componentsSchema = z
+  .object({
+    type: z.string().optional(),
+    content: globalContentValidator,
+    styles: z.record(z.string()).optional(),
+  })
+  .optional();
 
 export const heroSectionZodSchema = z.object({
   body: z.object({
@@ -18,4 +20,3 @@ export const heroSectionZodSchema = z.object({
     hero_description: componentsSchema,
   }),
 });
-
