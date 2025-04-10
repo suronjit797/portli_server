@@ -1,5 +1,8 @@
 import { Model } from "mongoose";
 import type { IGetAll_service, IPagination, TFilter } from "./globalInterfaces";
+import { paginationHelper } from "../../helper/paginationHelper";
+import filterHelper from "../../helper/filterHelper";
+import { Request } from "express";
 
 const globalService = <TType>(
   ModelName: Model<TType, Record<string, unknown>>
@@ -8,7 +11,7 @@ const globalService = <TType>(
   getSingle: (id: string) => Promise<TType | null>;
   update: (id: string, payload: Partial<TType>) => Promise<TType | null>;
   remove: (id: string) => Promise<TType | null>;
-  getAll: (pagination: IPagination, filter: Partial<TFilter>) => Promise<IGetAll_service<TType[]>>;
+  getAll: (req: Request) => Promise<IGetAll_service<TType[]>>;
 } => {
   return {
     // create
@@ -17,10 +20,17 @@ const globalService = <TType>(
     },
 
     // get all
-    getAll: async (pagination: IPagination, filter: Partial<TFilter>): Promise<IGetAll_service<TType[]>> => {
+    // getAll: async (pagination: IPagination, filter: Partial<TFilter>): Promise<IGetAll_service<TType[]>> => {
+    getAll: async (req: Request): Promise<IGetAll_service<TType[]>> => {
+      const pagination = paginationHelper(req.query);
+      const filter = filterHelper(req, new ModelName(), req.partialFilter);
+
       const { page, limit, skip, sortCondition } = pagination;
-      const data = await ModelName.find(filter).limit(limit).skip(skip).sort(sortCondition);
-      const total = await ModelName.countDocuments(filter);
+      const data = await ModelName.find(filter as any)
+        .limit(limit)
+        .skip(skip)
+        .sort(sortCondition);
+      const total = await ModelName.countDocuments(filter as any);
       return { data, meta: { page, limit, total } };
     },
 
@@ -36,7 +46,7 @@ const globalService = <TType>(
 
     // remove single
     remove: async (id: string): Promise<TType | null> => {
-      return await ModelName.findByIdAndDelete(id);
+      return await ModelName.findByIdAndDelete(id) as any;
     },
   };
 };

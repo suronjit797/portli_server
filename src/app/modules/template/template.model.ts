@@ -15,6 +15,7 @@ const componentsSchema = {
 
 const templateSchema = new Schema<TTemplate>(
   {
+    name: { type: String, required: true, unique: true, trim: true },
     hero: { type: Types.ObjectId, ref: "Hero", required: false },
     about: { type: Types.ObjectId, ref: "About", required: false },
     contact: { type: Types.ObjectId, ref: "Contact", required: false },
@@ -23,6 +24,7 @@ const templateSchema = new Schema<TTemplate>(
     experience: { type: Types.ObjectId, ref: "Experience", required: false },
     blog: { type: Types.ObjectId, ref: "Blog", required: false },
     user: { type: Types.ObjectId, ref: "User", required: true },
+    isAdminTemplate: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
