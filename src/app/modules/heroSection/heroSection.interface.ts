@@ -16,10 +16,7 @@ export type THeroSection = {
   hero_image: THeroComponents;
   hero_designation: THeroComponents;
   hero_description: THeroComponents;
-  user: {
-    type: mongoose.Types.ObjectId;
-    ref: "User";
-  };
+
 };
 
 export type THeroSectionModel = Model<THeroSection, Record<string, unknown>>;

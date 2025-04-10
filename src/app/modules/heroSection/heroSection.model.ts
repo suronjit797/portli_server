@@ -9,7 +9,7 @@ const componentsSchema = {
   styles: Object,
   key: {
     type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(), // generate new ObjectId by default
+    default: () => new Types.ObjectId(),
   },
 };
 
@@ -26,6 +26,6 @@ const heroSectionSchema = new Schema<THeroSection>(
   { timestamps: true }
 );
 
-const HeroSectionModel = model<THeroSection, THeroSectionModel>("HeroSection", heroSectionSchema);
+const HeroSectionModel = model<THeroSection, THeroSectionModel>("Hero", heroSectionSchema);
 
 export default HeroSectionModel;

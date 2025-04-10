@@ -4,24 +4,10 @@ import { userRole } from "../../../constants/userConstants";
 
 const userSchema = new Schema<TUser>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    role: {
-      type: String,
-      enum: Object.values(userRole),
-      default: "user",
-    },
-    password: {
-      type: String,
-      required: true,
-    },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    role: { type: String, enum: Object.values(userRole), default: "user" },
+    password: { type: String, required: true },
     phoneNumber: { required: true, type: String },
     activeTemplate: String,
     paymentInfo: Schema.Types.ObjectId, //! in future
