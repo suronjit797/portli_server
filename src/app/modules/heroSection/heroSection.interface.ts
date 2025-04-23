@@ -11,7 +11,7 @@ interface THeroComponents {
 export type THeroSection = {
   styles: Record<string, any>;
   hero_text: THeroComponents;
-  hero_TextGroup: THeroComponents;
+  hero_textGroup: THeroComponents;
   hero_button: THeroComponents;
   hero_image: THeroComponents;
   hero_designation: THeroComponents;

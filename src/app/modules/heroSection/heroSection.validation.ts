@@ -13,7 +13,7 @@ export const heroSectionZodSchema = z.object({
   body: z.object({
     styles: z.record(z.string()).optional(),
     hero_text: componentsSchema,
-    hero_TextGroup: componentsSchema,
+    hero_textGroup: componentsSchema,
     hero_button: componentsSchema,
     hero_image: componentsSchema,
     hero_designation: componentsSchema,
