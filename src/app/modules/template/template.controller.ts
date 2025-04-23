@@ -14,7 +14,7 @@ const globalControllers = globalController(TemplateService, name);
 const create: RequestHandler = async (req, res, next) => {
   try {
     const { _id, role } = req.user;
-    const data = TemplateModel.create({ ...req.body, user: _id, isAdminTemplate: role === "admin" });
+    const data = await TemplateModel.create({ ...req.body, user: _id, isAdminTemplate: role === "admin" });
 
     const payload = {
       success: true,
