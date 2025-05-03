@@ -25,11 +25,12 @@ const globalService = <TType>(
       const pagination = paginationHelper(req.query);
       const filter = filterHelper(req, new ModelName(), req.partialFilter);
 
-      const { page, limit, skip, sortCondition } = pagination;
+      const { page, limit, skip, sortCondition, populate = "" } = pagination;
       const data = await ModelName.find(filter as any)
         .limit(limit)
         .skip(skip)
-        .sort(sortCondition);
+        .sort(sortCondition)
+        .populate(populate);
       const total = await ModelName.countDocuments(filter as any);
       return { data, meta: { page, limit, total } };
     },
