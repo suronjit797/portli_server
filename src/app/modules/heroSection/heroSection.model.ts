@@ -3,10 +3,14 @@ import type { THeroSection, THeroSectionModel } from "./heroSection.interface";
 import { globalContent } from "../../global/globalSchema";
 import { Types } from "mongoose";
 
-const componentsSchema = new Schema({
-  content: globalContent,
-  styles: Object,
-});
+const componentsSchema = new Schema(
+  {
+    content: globalContent,
+    styles: Object,
+    _id: { type: String, trim: true },
+  },
+  { _id: false }
+);
 
 const heroSectionSchema = new Schema<THeroSection>(
   {
