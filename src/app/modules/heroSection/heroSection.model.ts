@@ -6,11 +6,7 @@ import { Types } from "mongoose";
 const componentsSchema = new Schema({
   content: globalContent,
   styles: Object,
-  // _id: {
-  //   type: Schema.Types.ObjectId,
-  //   default: () => new Types.ObjectId(),
-  // },
-},{ _id: false });
+});
 
 const heroSectionSchema = new Schema<THeroSection>(
   {
