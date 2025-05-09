@@ -1,0 +1,26 @@
+services:
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    command: yarn dev --host
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: yarn dev
+    environment:
+      - PORT=5000
