@@ -1,15 +1,22 @@
 import { Model, ObjectId } from "mongoose";
 
+export interface IVariants {
+  name: string;
+  value: string;
+  colors: string[];
+}
+
 export type TTemplate = {
   name: string;
   image: string;
   description: string;
-  rating: number;
+  variants: IVariants[];
+  ratings: number;
   themeUser?: number; //!have to change latter
   isAdminTemplate: boolean;
   user: ObjectId;
 
-  hero?: ObjectId;
+  hero?: object;
   // about?: ObjectId;
   // contact?: ObjectId;
   // service?: ObjectId;

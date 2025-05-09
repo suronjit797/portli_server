@@ -6,7 +6,7 @@ import { Types } from "mongoose";
 const heroComponentsSchema = new Schema(
   {
     content: globalContent,
-    styles: Object,
+    style: [{ type: String }],
     _id: { type: String, trim: true },
   },
   { _id: false }
@@ -24,12 +24,20 @@ const componentsSchema = {
 
 const templateSchema = new Schema<TTemplate>(
   {
-    name: { type: String, required: true, unique: true, trim: true },
+    name: { type: String, required: true, trim: true },
     image: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
-    rating: { type: Number, required: true, trim: true },
+    ratings: { type: Number, required: true, trim: true },
+    themeUser: { type: Number },
     user: { type: Types.ObjectId, ref: "User", required: true },
     isAdminTemplate: { type: Boolean, default: false },
+    variants: [
+      {
+        name: { type: String, trim: true },
+        value: { type: String, trim: true },
+        colors: [{ type: String, trim: true }],
+      },
+    ],
 
     // sections
     hero: {
@@ -40,6 +48,7 @@ const templateSchema = new Schema<TTemplate>(
       hero_image: heroComponentsSchema,
       hero_designation: heroComponentsSchema,
       hero_description: heroComponentsSchema,
+      _id: String,
     },
     // about: { type: Types.ObjectId, ref: "About", required: false },
     // contact: { type: Types.ObjectId, ref: "Contact", required: false },

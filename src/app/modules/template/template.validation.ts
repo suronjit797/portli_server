@@ -14,14 +14,21 @@ export const templateZodSchema = z.object({
     name: z.string().optional(),
     image: z.string().optional(),
     description: z.string().optional(),
-    rating: z.number().optional(),
+    ratings: z.number().optional(),
     themeUser: z.number().optional(),
     user: z.string().optional(),
+    variants: z.array(
+      z.object({
+        name: z.string(),
+        value: z.string(),
+        colors: z.array(z.string()),
+      })
+    ),
     // isAdminTemplate: z.string().optional(),
 
     hero: z
       .object({
-        styles: z.record(z.string()).optional(),
+        styles: z.record(z.any()).optional(),
         hero_text: heroComponentsSchema,
         hero_textGroup: heroComponentsSchema,
         hero_button: heroComponentsSchema,
