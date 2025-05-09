@@ -8,6 +8,7 @@ import PackageModel from "../package/package.model";
 import ApiError from "../../../ApiError";
 import dayjs, { ManipulateType } from "dayjs";
 import SubscriptionModel from "./subscription.model";
+import UserModel from "../user/user.model";
 
 // variables
 const name = "Subscription";
@@ -19,10 +20,10 @@ const create: RequestHandler = async (req, res, next) => {
   try {
     const { package: packageId, user: userId } = req.body;
     const findPackage = await PackageModel.findById(packageId);
+    const findUser = await UserModel.findById(userId);
 
-    if (!findPackage) {
-      throw new ApiError(httpStatus.NOT_FOUND, "Invalid package");
-    }
+    if (!findPackage) throw new ApiError(httpStatus.NOT_FOUND, "Invalid package");
+    if (!findUser) throw new ApiError(httpStatus.NOT_FOUND, "Invalid user");
 
     const { duration, durationUnit } = findPackage;
     const expireDate = dayjs()
@@ -32,7 +33,7 @@ const create: RequestHandler = async (req, res, next) => {
     const body = { ...req.body, expireDate };
 
     // Check if subscription already exists for this user and package
-    const existing = await SubscriptionModel.findOne({ user: userId, package: packageId });
+    const existing = await SubscriptionModel.findOne({ user: userId });
 
     let data;
     if (existing) {

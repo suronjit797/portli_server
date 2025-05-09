@@ -17,7 +17,7 @@ const packageSchema = new Schema<TPackage>(
     name: { type: String, required: true, unique: true, trim: true },
     description: { type: String, required: true },
     amount: { type: Number, required: true },
-    duration: { type: Number, required: true },
+    duration: { type: Number, required: true, default: 1 },
     durationUnit: { type: String, enum: ["day", "month", "year"], default: "day" },
     features: { type: Map, of: Schema.Types.Mixed, required: false },
   },
