@@ -14,13 +14,9 @@ const componentsSchema = {
 
 const subscriptionSchema = new Schema<TSubscription>(
   {
-    name: { type: String, required: true, unique: true, trim: true },
-    description: { type: String, required: true },
-    amount: { type: Number, required: true },
-    duration: { type: Number, required: true },
-    durationUnit: { type: String, enum: ["day", "month", "year"], default: "day" },
-    features: { type: Map, of: Schema.Types.Mixed, required: false },
     user: { type: Schema.Types.ObjectId, ref: "Users" },
+    package: { type: Schema.Types.ObjectId, ref: "Packages" },
+    expireDate: { type: Date, required: true },
   },
   { timestamps: true }
 );
