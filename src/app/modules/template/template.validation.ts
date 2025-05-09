@@ -17,7 +17,7 @@ export const templateZodSchema = z.object({
     rating: z.number().optional(),
     themeUser: z.number().optional(),
     user: z.string().optional(),
-    isAdminTemplate: z.string().optional(),
+    // isAdminTemplate: z.string().optional(),
 
     hero: z
       .object({

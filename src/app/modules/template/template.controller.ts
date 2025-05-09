@@ -5,6 +5,9 @@ import TemplateService from "./template.service";
 import sendRes from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import TemplateModel from "./template.model";
+import { userRole } from "../../../constants/userConstants";
+
+const { superAdmin, admin } = userRole;
 
 // variables
 const name = "Template";
@@ -14,7 +17,11 @@ const globalControllers = globalController(TemplateService, name);
 const create: RequestHandler = async (req, res, next) => {
   try {
     const { _id, role } = req.user;
-    const data = await TemplateModel.create({ ...req.body, user: _id, isAdminTemplate: role === "admin" });
+    const data = await TemplateModel.create({
+      ...req.body,
+      user: _id,
+      isAdminTemplate: [admin, superAdmin].includes(role),
+    });
 
     const payload = {
       success: true,
