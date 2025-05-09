@@ -6,6 +6,8 @@ import config from "./config";
 import app from "./app";
 let server: Server;
 
+const HOST = "0.0.0.0";
+
 process.on("uncaughtException", (error) => {
   errorLogger(`uncaughtException: ${error.message}`);
   process.exit(1);
@@ -20,7 +22,7 @@ const bootFunctions = async () => {
     successLogger(config.DB_URI as string);
     await mongoose.connect(config.DB_URI as string);
     successLogger("🛢 Database connected...");
-    server = app.listen(config.PORT, () => {
+    server = app.listen(config.PORT, HOST, () => {
       successLogger(
         `[${config.NODE_ENV === "production" ? "Prod" : "Dev"}] Server is online http://localhost:${config.PORT}/`
       );

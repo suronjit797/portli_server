@@ -2,6 +2,11 @@ import { Model, ObjectId } from "mongoose";
 
 export type TTemplate = {
   name: string;
+  image: string;
+  description: string;
+  rating: number;
+  themeUser?: number; //!have to change latter
+
   hero?: ObjectId;
   about?: ObjectId;
   contact?: ObjectId;

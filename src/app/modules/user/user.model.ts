@@ -9,9 +9,11 @@ const userSchema = new Schema<TUser>(
     role: { type: String, enum: Object.values(userRole), default: "user" },
     password: { type: String, required: true },
     phoneNumber: { required: true, type: String },
-    activeTemplate: String,
-    paymentInfo: Schema.Types.ObjectId, //! in future
-    // profilePicture: Schema.Types.Mixed,
+
+    subscribedPackage: String,
+    uniqueSubDomain: String,
+    selectedVariant: String,
+    selectedTheme: Schema.Types.ObjectId, //! in future
   },
   { timestamps: true }
 );

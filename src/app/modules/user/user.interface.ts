@@ -6,10 +6,10 @@ export type TUser = {
   role: "superAdmin" | "admin" | "user";
   password?: string;
   phoneNumber: string;
-  activeTemplate?: string;
-  paymentInfo?: ObjectId; //! in future
-  // profilePicture?: object;
-
+  selectedTheme?: ObjectId;
+  selectedVariant: string;
+  subscribedPackage: ObjectId;
+  uniqueSubDomain: string;
 };
 
 export type TUserModel = Model<TUser, Record<string, unknown>>;
