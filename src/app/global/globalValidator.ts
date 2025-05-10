@@ -10,8 +10,30 @@ export const globalImageValidator = z
   })
   .optional();
 
-export const globalContentValidator = z.object({
-  text: z.string().optional(),
-  url: z.string().optional(),
-  elements: z.array(z.any()).optional(),
-}).optional();
+export const globalContentValidator = z
+  .object({
+    text: z.string().optional(),
+    url: z.string().optional(),
+    elements: z.array(z.any()).optional(),
+  })
+  .optional();
+
+export const componentsSchemaValidator = z
+  .object({
+    type: z.string().optional(),
+    content: globalContentValidator,
+    styles: z.record(z.string()).optional(),
+  })
+  .optional();
+
+export const globalTemplateSectionsValidator = z
+  .object({
+    styles: z.record(z.any()).optional(),
+    text: componentsSchemaValidator,
+    textGroup: componentsSchemaValidator,
+    button: componentsSchemaValidator,
+    image: componentsSchemaValidator,
+    designation: componentsSchemaValidator,
+    description: componentsSchemaValidator,
+  })
+  .optional();

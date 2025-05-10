@@ -1,26 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
+import { globalTemplateSections } from "../../global/globalSchema";
 import type { TTemplate, TTemplateModel } from "./template.interface";
-import { globalContent } from "../../global/globalSchema";
-import { Types } from "mongoose";
-
-const heroComponentsSchema = new Schema(
-  {
-    content: globalContent,
-    style: [{ type: String }],
-    _id: { type: String, trim: true },
-  },
-  { _id: false }
-);
-
-const componentsSchema = {
-  type: String,
-  content: globalContent,
-  styles: Object,
-  key: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
-  },
-};
 
 const templateSchema = new Schema<TTemplate>(
   {
@@ -40,22 +20,13 @@ const templateSchema = new Schema<TTemplate>(
     ],
 
     // sections
-    hero: {
-      styles: Object,
-      hero_text: heroComponentsSchema,
-      hero_textGroup: heroComponentsSchema,
-      hero_button: heroComponentsSchema,
-      hero_image: heroComponentsSchema,
-      hero_designation: heroComponentsSchema,
-      hero_description: heroComponentsSchema,
-      _id: String,
-    },
-    // about: { type: Types.ObjectId, ref: "About", required: false },
-    // contact: { type: Types.ObjectId, ref: "Contact", required: false },
-    // service: { type: Types.ObjectId, ref: "Service", required: false },
-    // work: { type: Types.ObjectId, ref: "Work", required: false },
-    // experience: { type: Types.ObjectId, ref: "Experience", required: false },
-    // blog: { type: Types.ObjectId, ref: "Blog", required: false },
+    hero: globalTemplateSections,
+    about: globalTemplateSections,
+    contact: globalTemplateSections,
+    service: globalTemplateSections,
+    work: globalTemplateSections,
+    experience: globalTemplateSections,
+    blog: globalTemplateSections,
   },
   { timestamps: true }
 );

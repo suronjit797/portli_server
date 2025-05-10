@@ -1,13 +1,5 @@
 import { z } from "zod";
-import { globalContentValidator } from "../../global/globalValidator";
-
-const heroComponentsSchema = z
-  .object({
-    type: z.string().optional(),
-    content: globalContentValidator,
-    styles: z.record(z.string()).optional(),
-  })
-  .optional();
+import { globalTemplateSectionsValidator } from "../../global/globalValidator";
 
 export const templateZodSchema = z.object({
   body: z.object({
@@ -30,22 +22,12 @@ export const templateZodSchema = z.object({
       .optional(),
     // isAdminTemplate: z.string().optional(),
 
-    hero: z
-      .object({
-        styles: z.record(z.any()).optional(),
-        hero_text: heroComponentsSchema,
-        hero_textGroup: heroComponentsSchema,
-        hero_button: heroComponentsSchema,
-        hero_image: heroComponentsSchema,
-        hero_designation: heroComponentsSchema,
-        hero_description: heroComponentsSchema,
-      })
-      .optional(),
-    // about: z.string().optional(),
-    // contact: z.string().optional(),
-    // service: z.string().optional(),
-    // work: z.string().optional(),
-    // experience: z.string().optional(),
-    // blog: z.string().optional(),
+    hero: globalTemplateSectionsValidator,
+    about: globalTemplateSectionsValidator,
+    contact: globalTemplateSectionsValidator,
+    service: globalTemplateSectionsValidator,
+    work: globalTemplateSectionsValidator,
+    experience: globalTemplateSectionsValidator,
+    blog: globalTemplateSectionsValidator,
   }),
 });
