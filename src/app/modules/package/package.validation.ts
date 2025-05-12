@@ -6,7 +6,7 @@ export const packageZodSchema = z.object({
     description: z.string(),
     duration: z.number(),
     amount: z.number(),
-    features: z.record(z.any()).optional(),
+    features: z.array(z.any()).optional(),
     durationUnit: z.enum(["day", "month", "year"]).optional(),
   }),
 });
