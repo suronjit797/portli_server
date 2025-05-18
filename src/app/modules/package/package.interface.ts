@@ -6,7 +6,6 @@ export type TPackage = {
   durationUnit: string;
   amount: number;
   totalUser: number;
-  activeUser: number;
   description: string;
   features: object;
 };
