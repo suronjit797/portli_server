@@ -9,6 +9,8 @@ import ApiError from "../../../ApiError";
 import dayjs, { ManipulateType } from "dayjs";
 import SubscriptionModel from "./subscription.model";
 import UserModel from "../user/user.model";
+import { TPackage } from "../package/package.interface";
+import { userRole } from "../../../constants/userConstants";
 
 // variables
 const name = "Subscription";
@@ -32,21 +34,33 @@ const create: RequestHandler = async (req, res, next) => {
 
     const body = { ...req.body, expireDate };
 
-    // Check if subscription already exists for this user and package
+    if ([userRole.admin, userRole.superAdmin].includes(req.user.role)) {
+      body.assignBy = req.user._id;
+    }
+
     const existing = await SubscriptionModel.findOne({ user: userId });
 
     let data;
     if (existing) {
-      // Update existing subscription
       data = await SubscriptionModel.findByIdAndUpdate(existing._id, body, { new: true });
     } else {
-      // Create new subscription
       data = await SubscriptionModel.create(body);
+    }
+
+    if (findPackage) {
+      PackageModel.findByIdAndUpdate(
+        findPackage._id,
+        {
+          ...findPackage,
+          totalUser: findPackage.totalUser + 1,
+        },
+        { new: true }
+      );
     }
 
     const payload = {
       success: true,
-      message: `Subscription ${existing ? "updated" : "created"} successfully`,
+      message: `${name} ${existing ? "updated" : "created"} successfully`,
       data,
     };
     sendRes(res, httpStatus.CREATED, payload);

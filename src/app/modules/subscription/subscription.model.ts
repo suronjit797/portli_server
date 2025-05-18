@@ -16,6 +16,8 @@ const subscriptionSchema = new Schema<TSubscription>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
     package: { type: Schema.Types.ObjectId, ref: "Package" },
+    assignBy: { type: Schema.Types.ObjectId, ref: "Package" },
+    status: { type: Boolean, default: true },
     expireDate: { type: Date, required: true },
   },
   { timestamps: true }
