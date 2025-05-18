@@ -14,8 +14,8 @@ const componentsSchema = {
 
 const subscriptionSchema = new Schema<TSubscription>(
   {
-    user: { type: Schema.Types.ObjectId, ref: "Users" },
-    package: { type: Schema.Types.ObjectId, ref: "Packages" },
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    package: { type: Schema.Types.ObjectId, ref: "Package" },
     expireDate: { type: Date, required: true },
   },
   { timestamps: true }
