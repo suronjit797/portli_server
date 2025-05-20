@@ -1,70 +1,33 @@
-import "winston-daily-rotate-file";
-import { createLogger, format, transports } from "winston";
 import colors from "colors/safe";
-import moment from "moment";
+import config from "../config";
+import dayjs from "dayjs";
 
-// // custom formatting
-// const { combine, timestamp, printf } = format;
-// const formateSave = printf(({ level, message, timestamp }) => {
-//   const time = moment(timestamp).format("HH:mm:ss");
-//   return `[${level}] ${time}: ${message}`;
-// });
-// const sFormateLog = printf(({ level, message, timestamp }) => {
-//   const time = moment(timestamp).format("HH:mm:ss");
-//   return `## [${level}] ${time}: ` + `${message}`.green.bold;
-// });
-// const eFormateLog = printf(({ level, message, timestamp }) => {
-//   const time = moment(timestamp).format("HH:mm:ss");
-//   return `## [${level}] ${time}: ` + `${message}`.red.bold;
-// });
+// Server type (dev/prod)
+const SERVER_TYPE = config.NODE_ENV === "production" ? "PROD" : "DEV";
 
-// // success logger
-// const sLogger = createLogger({
-//   level: "info",
-//   format: combine(timestamp(), formateSave, format.colorize()),
-//   transports: [
-//     new transports.DailyRotateFile({
-//       filename: "log/winston/success/success-%DATE%.log",
-//       datePattern: "YYYY-MM-DD-HH",
-//       zippedArchive: true,
-//       maxSize: "20m",
-//       maxFiles: "14d",
-//     }),
-//   ],
-// });
+// Timestamp function
+const getTimestamp = () => dayjs().format("HH:mm:ss");
 
-// // error logger
-// const eLogger = createLogger({
-//   level: "error",
-//   format: combine(timestamp(), formateSave, format.colorize()),
-//   transports: [
-//     new transports.DailyRotateFile({
-//       filename: "log/winston/error/error-%DATE%.log",
-//       datePattern: "YYYY-MM-DD-HH",
-//       zippedArchive: true,
-//       maxSize: "20m",
-//       maxFiles: "14d",
-//     }),
-//   ],
-// });
+// Success Logger
+export const successLogger = (message: string) => {
+  const logMessage = `[${getTimestamp()}] [${SERVER_TYPE}] ${colors.bold(colors.green("SUCCESS"))}: ${message}`;
+  console.log(logMessage);
+};
 
-// // for development only
-// if (process.env.NODE_ENV !== "production") {
-//   sLogger.add(
-//     new transports.Console({
-//       format: combine(timestamp(), sFormateLog, format.colorize()),
-//     })
-//   );
-//   eLogger.add(
-//     new transports.Console({
-//       format: combine(timestamp(), eFormateLog, format.colorize()),
-//     })
-//   );
-// }
+// Error Logger
+export const errorLogger = (message: string) => {
+  const logMessage = `[${getTimestamp()}] [${SERVER_TYPE}] ${colors.bold(colors.red("ERROR"))}: ${message}`;
+  console.log(logMessage);
+};
 
-// export const successLogger = (message: string) => sLogger.info(message);
-// export const errorLogger = (message: string) => eLogger.error(message);
+// Info Logger (Optional)
+export const infoLogger = (message: string) => {
+  const logMessage = `[${getTimestamp()}] [${SERVER_TYPE}] ${colors.bold(colors.blue("INFO"))}: ${message}`;
+  console.log(logMessage);
+};
 
-export const successLogger = (message: string) => console.log(colors.bold(colors.green(message)));
-
-export const errorLogger = (message: string) => console.log(colors.bold(colors.red(message)));
+// Warning Logger (Optional)
+export const warningLogger = (message: string) => {
+  const logMessage = `[${getTimestamp()}] [${SERVER_TYPE}] ${colors.bold(colors.yellow("WARNING"))}: ${message}`;
+  console.log(logMessage);
+};

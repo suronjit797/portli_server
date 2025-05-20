@@ -1,12 +1,11 @@
 import { JwtPayload } from "jsonwebtoken";
-import { CustomJwtPayload } from "./globalInterfaces";
+import { CustomJwtPayload } from "../global/globalInterfaces";
 
 declare global {
   namespace Express {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
     interface Request {
       user: JwtPayload | CustomJwtPayload;
-      partialFilter: array;
+      partialFilter: array
     }
   }
 }
