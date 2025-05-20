@@ -11,7 +11,7 @@ const moduleRoute = [
   { path: "/users", routes: userRouter, auth: false },
   { path: "/template", routes: templateRouter, auth: false },
   { path: "/package", routes: packageRouter, auth: false },
-  { path: "/subscription", routes: subscriptionRouter, auth: true },
+  { path: "/subscription", routes: subscriptionRouter, auth: false },
 ];
 
 moduleRoute.forEach((route) =>

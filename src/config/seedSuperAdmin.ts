@@ -18,7 +18,6 @@ const seedSuperAdmin = async () => {
     // Check if super admin already exists
     const existingSuperAdmin = await UserModel.findOne({
       email: superAdminEmail,
-      role: "superAdmin",
     });
 
     if (!existingSuperAdmin) {
@@ -29,7 +28,11 @@ const seedSuperAdmin = async () => {
         password: superAdminPassword,
         name: superAdminName,
         role: "superAdmin",
-        loginId: superAdminEmail,
+        phoneNumber: "",
+        uniqueSubDomain: "",
+        subscribedPackage: "" as any,
+        selectedVariant: "",
+        selectedTheme: "" as any,
       });
       // const hashedPassword = await bcrypt.hash(superAdminPassword, config.sault_round);
 

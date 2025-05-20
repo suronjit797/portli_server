@@ -16,7 +16,7 @@ const { ObjectId } = Types;
 const globalController = <TType>(
   // ModelName: Model<TType>,
   ModelName: Model<TType>,
-  name: string,
+  name: string
 ): {
   create: RequestHandler;
   getAll: RequestHandler;
@@ -60,6 +60,7 @@ const globalController = <TType>(
         // console.log({ cacheKey });
 
         if (cachedData) {
+          console.log("hit");
           const cachedDataJSON = JSON.parse(cachedData);
           values = cachedDataJSON;
         } else {

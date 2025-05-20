@@ -32,5 +32,4 @@ export default {
   EMAIL_USER: process.env.EMAIL_USER || "",
   EMAIL_PASS: process.env.EMAIL_PASS || "",
   CUSTOMER_CARE_EMAIL: process.env.CUSTOMER_CARE_EMAIL || "support@example.com",
-
 };
