@@ -22,13 +22,13 @@ export const componentsSchemaValidator = z
   .object({
     type: z.string().optional(),
     content: globalContentValidator,
-    styles: z.record(z.string()).optional(),
+    styles: z.string().optional(),
   })
   .optional();
 
 export const globalTemplateSectionsValidator = z
   .object({
-    styles: z.record(z.any()).optional(),
+    styles: z.any().optional(),
     text: componentsSchemaValidator,
     textGroup: componentsSchemaValidator,
     button: componentsSchemaValidator,

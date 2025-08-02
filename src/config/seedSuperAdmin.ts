@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import config from ".";
 import UserModel from "../app/user/user.model";
-import userService from "../app/user/user.service";
 
 dotenv.config();
 
@@ -23,7 +22,7 @@ const seedSuperAdmin = async () => {
     if (!existingSuperAdmin) {
       // Hash password
 
-      await userService.create({
+      await UserModel.create({
         email: superAdminEmail,
         password: superAdminPassword,
         name: superAdminName,

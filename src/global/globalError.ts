@@ -34,7 +34,7 @@ const globalError: ErrorRequestHandler = (err, req, res, next) => {
     statusCode = 400;
     status = "fail";
     message = "Validation error";
-    errorMessages = err.errors.map((error) => ({
+    errorMessages = err.issues.map((error) => ({
       path: error.path.join("."),
       message: error.message,
     }));
