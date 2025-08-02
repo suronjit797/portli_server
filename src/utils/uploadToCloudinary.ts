@@ -7,7 +7,7 @@ import { CloudinaryStorage } from "multer-storage-cloudinary";
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "ivis3/ubb",
+    folder: "test/portli",
     transformation: [{ width: 1024 }, { quality: "auto:eco" }, { fetch_format: "webp" }],
   } as Record<string, any>,
 });

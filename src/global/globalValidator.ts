@@ -37,3 +37,9 @@ export const globalTemplateSectionsValidator = z
     description: componentsSchemaValidator,
   })
   .optional();
+
+export const globalQueryZodSchema = z.object({
+  query: z.object().refine((data) => Object.keys(data).length > 0, {
+    message: "At least one query field must be provided",
+  }),
+});
