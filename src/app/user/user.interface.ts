@@ -1,4 +1,4 @@
-import { Model, ObjectId } from "mongoose";
+import { Document, Model, ObjectId } from "mongoose";
 
 export type TUser = {
   name: string;
@@ -11,5 +11,8 @@ export type TUser = {
   subscribedPackage: ObjectId;
   uniqueSubDomain: string;
 };
+
+export interface TUserDocument extends TUser, Document {}
+
 
 export type TUserModel = Model<TUser, Record<string, unknown>>;

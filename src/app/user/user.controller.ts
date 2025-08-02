@@ -72,6 +72,8 @@ const updateProfile: RequestHandler = async (req, res, next) => {
   }
 };
 
+
+// not used yet
 const removeProfile: RequestHandler = async (req, res, next) => {
   try {
     const data = await UserModel.findByIdAndDelete(req.user._id);

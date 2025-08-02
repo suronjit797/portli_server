@@ -13,8 +13,6 @@ process.on("uncaughtException", (error) => {
   process.exit(1);
 });
 
-
-
 const bootFunctions = async () => {
   try {
     if (!config.PORT) return errorLogger("Port is not found");
