@@ -23,13 +23,11 @@ const login = async (payload: LoginPayload): Promise<LoginRes> => {
   const user = await UserModel.findOne({ $or: [{ email: payload.email }, { loginId: payload.email }] }).select(
     "+password"
   );
-  console.log({ user });
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid credentials");
   }
 
   const isPasswordValid = await bcrypt.compare(payload.password, user.password as string);
-  console.log({ isPasswordValid });
   if (!isPasswordValid) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid credentials");
   }
