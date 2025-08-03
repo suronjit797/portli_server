@@ -13,7 +13,7 @@ const imageRouter = generateCrudRoutes({
     removeMany: [validatorMiddleware(globalQueryZodSchema)],
     updateMany: [validatorMiddleware(globalQueryZodSchema)],
     update: [validatorMiddleware(imageZodSchema)],
-    remove: [validatorMiddleware(imageZodSchema)],
+    // remove: [validatorMiddleware(imageZodSchema)],
   },
 });
 
