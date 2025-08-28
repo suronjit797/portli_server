@@ -20,13 +20,22 @@ export interface IComponentsSchema {
 
 export interface IGlobalTemplateSections {
   styles: Object;
-  text: IComponentsSchema;
-  textGroup: IComponentsSchema;
-  button: IComponentsSchema;
-  image: IComponentsSchema;
-  designation: IComponentsSchema;
-  description: IComponentsSchema;
+  // text: IComponentsSchema;
+  // textGroup: IComponentsSchema;
+  // button: IComponentsSchema;
+  // image: IComponentsSchema;
+  // designation: IComponentsSchema;
+  // description: IComponentsSchema;
   _id: String;
+  heading_secondary: IComponentsSchema;
+  text_primary: IComponentsSchema;
+  text_secondary: IComponentsSchema;
+  image: IComponentsSchema;
+  background_image: IComponentsSchema;
+  description_primary: IComponentsSchema;
+  description_secondary: IComponentsSchema;
+  icon: IComponentsSchema;
+  multiple_items: IComponentsSchema;
 }
 
 export type TTemplate = {

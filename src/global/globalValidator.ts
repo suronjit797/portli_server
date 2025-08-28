@@ -29,12 +29,21 @@ export const componentsSchemaValidator = z
 export const globalTemplateSectionsValidator = z
   .object({
     styles: z.any().optional(),
-    text: componentsSchemaValidator,
-    textGroup: componentsSchemaValidator,
-    button: componentsSchemaValidator,
+    // text: componentsSchemaValidator,
+    // textGroup: componentsSchemaValidator,
+    // button: componentsSchemaValidator,
+    // image: componentsSchemaValidator,
+    // designation: componentsSchemaValidator,
+    // description: componentsSchemaValidator,
+    heading_secondary: componentsSchemaValidator,
+    text_primary: componentsSchemaValidator,
+    text_secondary: componentsSchemaValidator,
     image: componentsSchemaValidator,
-    designation: componentsSchemaValidator,
-    description: componentsSchemaValidator,
+    background_image: componentsSchemaValidator,
+    description_primary: componentsSchemaValidator,
+    description_secondary: componentsSchemaValidator,
+    icon: componentsSchemaValidator,
+    multiple_items: componentsSchemaValidator,
   })
   .optional();
 
