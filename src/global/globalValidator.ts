@@ -44,6 +44,8 @@ export const globalTemplateSectionsValidator = z
     description_secondary: componentsSchemaValidator,
     icon: componentsSchemaValidator,
     multiple_items: componentsSchemaValidator,
+    button_primary: componentsSchemaValidator,
+    button_secondary: componentsSchemaValidator,
   })
   .optional();
 

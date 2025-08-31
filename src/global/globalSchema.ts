@@ -36,4 +36,6 @@ export const globalTemplateSections = {
   description_secondary: componentsSchema,
   icon: componentsSchema,
   multiple_items: componentsSchema,
+  button_primary: componentsSchema,
+  button_secondary: componentsSchema,
 };

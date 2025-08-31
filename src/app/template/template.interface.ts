@@ -36,6 +36,8 @@ export interface IGlobalTemplateSections {
   description_secondary: IComponentsSchema;
   icon: IComponentsSchema;
   multiple_items: IComponentsSchema;
+  button_secondary: IComponentsSchema;
+  button_primary: IComponentsSchema;
 }
 
 export type TTemplate = {
