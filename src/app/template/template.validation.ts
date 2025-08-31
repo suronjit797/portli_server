@@ -17,17 +17,18 @@ export const templateZodSchema = z.object({
             value: z.string().optional(),
             colors: z.array(z.string().optional()).optional(),
           })
-          .optional()
+          .optional(),
       )
       .optional(),
     // isAdminTemplate: z.string().optional(),
 
+    header: globalTemplateSectionsValidator,
     hero: globalTemplateSectionsValidator,
     about: globalTemplateSectionsValidator,
     contact: globalTemplateSectionsValidator,
-    service: globalTemplateSectionsValidator,
-    work: globalTemplateSectionsValidator,
-    experience: globalTemplateSectionsValidator,
+    services: globalTemplateSectionsValidator,
+    portfolio: globalTemplateSectionsValidator,
+    footer: globalTemplateSectionsValidator,
     blog: globalTemplateSectionsValidator,
   }),
 });

@@ -21,15 +21,16 @@ const templateSchema = new Schema<TTemplate>(
     ],
 
     // sections
+    header: globalTemplateSections,
     hero: globalTemplateSections,
     about: globalTemplateSections,
     contact: globalTemplateSections,
-    service: globalTemplateSections,
-    work: globalTemplateSections,
-    experience: globalTemplateSections,
+    services: globalTemplateSections,
+    portfolio: globalTemplateSections,
+    footer: globalTemplateSections,
     blog: globalTemplateSections,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const TemplateModel = model<TTemplate, TTemplateModel>("Template", templateSchema);

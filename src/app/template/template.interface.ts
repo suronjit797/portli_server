@@ -48,12 +48,13 @@ export type TTemplate = {
   isAdminTemplate: boolean;
   user: ObjectId;
 
+  header?: IGlobalTemplateSections;
   hero?: IGlobalTemplateSections;
   about?: IGlobalTemplateSections;
   contact?: IGlobalTemplateSections;
-  service?: IGlobalTemplateSections;
-  work?: IGlobalTemplateSections;
-  experience?: IGlobalTemplateSections;
+  services?: IGlobalTemplateSections;
+  portfolio?: IGlobalTemplateSections;
+  footer?: IGlobalTemplateSections;
   blog?: IGlobalTemplateSections;
 };
 
